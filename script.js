@@ -1,3 +1,9 @@
+
+const playerOne = createPlayer('Player #1');
+const playerTwo = createPlayer('Plater #2');
+const currentGame = playerTurn();
+
+
 const gameBoard = (function () {
     const board = [];
 
@@ -9,7 +15,21 @@ const gameBoard = (function () {
 
 })();   
 
-console.log(gameBoard);
+function playerTurn () {
+    let turn = 0;
+    return function resulting (player) {
+        player.name == 'Player #1' ? turn = 1 : turn = 2;
+        if (turn == 1){
+            let cell = prompt('Insert a position from 1 to 9.');
+            chooseCell(playerOne, cell);
+        } else {
+            let cell = prompt('Insert a position from 1 to 9.');
+            chooseCell(playerTwo, cell);
+        }
+    }
+    
+
+}  
 
 function createPlayer (name, boardCells, symbol) {
     boardCells = [];
@@ -26,20 +46,21 @@ function createPlayer (name, boardCells, symbol) {
 function chooseCell(player, cell){
     gameBoard.board[cell].push(player.symbol);
     player.boardCells.push(gameBoard.board[cell]);
+    nextPlayer(player);
+    
 }
 
-const gameflow = function () {
-    let turn = 0;
-    decideTurn = (player) => player.name == 'Player #1' ? turn = 1 : turn = 2;
-    decideTurn();
-    return turn;
-    
-    
+function nextPlayer (player) {
+    if (player == playerOne){
+        currentGame(playerTwo);
+    } else {
+        currentGame(playerOne);
+    }
+}
+
+function playGame () {
+    currentGame(playerOne);
+}
 
 
-}  
-
-const playerOne = createPlayer('Player #1');
-const playerTwo = createPlayer('Plater #2');
-
-console.log(playerOne, playerTwo);
+playGame();
