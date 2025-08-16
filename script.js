@@ -1,7 +1,8 @@
 
 const playerOne = createPlayer('Player #1');
-const playerTwo = createPlayer('Plater #2');
+const playerTwo = createPlayer('Player #2');
 const currentGame = playerTurn();
+let currentTurn = currentGame(playerOne);
 
 
 const gameBoard = (function () {
@@ -18,48 +19,65 @@ const gameBoard = (function () {
 function playerTurn () {
     let turn = 0;
     return function resulting (player) {
-        player.name == 'Player #1' ? turn = 1 : turn = 2;
-        if (turn == 1){
-            let cell = prompt('Insert a position from 1 to 9.');
-            chooseCell(playerOne, cell);
-        } else {
-            let cell = prompt('Insert a position from 1 to 9.');
-            chooseCell(playerTwo, cell);
-        }
+    player.name == 'Player #1' ? turn = 1 : turn = 2;
+    return turn;
+    ;
+            
+        
     }
     
 
 }  
 
-function createPlayer (name, boardCells, symbol) {
-    boardCells = [];
-
-    if (name == 'Player #1'){
-        symbol = 'X';
-    } else {
-        symbol = 'O'
-    }
-    return {name, boardCells, symbol};
+function createPlayer (name) {
+    return {name};
     
 }
 
-function chooseCell(player, cell){
-    gameBoard.board[cell].push(player.symbol);
-    player.boardCells.push(gameBoard.board[cell]);
-    nextPlayer(player);
+function chooseCell(){
+    if (currentTurn == 1) {
+        let cell = prompt(`${playerOne.name} Insert a position from 1 to 9.`);
+        isRepeated(cell);
+    } else {
+        let cell = prompt(`${playerTwo.name} Insert a position from 1 to 9.`);
+        isRepeated(cell);
+    }
+   
+   
     
 }
 
-function nextPlayer (player) {
-    if (player == playerOne){
-        currentGame(playerTwo);
+function placeToken(cell) {
+    let token = 0;
+    token = cell;
+    gameBoard.board[cell].push(token);
+    nextPlayer();
+    
+}
+
+
+function nextPlayer () {
+    if (currentTurn == 1){
+        currentTurn = currentGame(playerTwo);
+        playGame();
     } else {
-        currentGame(playerOne);
+        currentTurn = currentGame(playerOne);
+        playGame();
     }
 }
+
+function isRepeated (cell) {
+    if (gameBoard.board[cell] == 0) {
+        placeToken(cell);
+    } else {
+        alert('Cell taken! Choose another one.');
+        playGame();
+    }
+}
+
 
 function playGame () {
-    currentGame(playerOne);
+    chooseCell();
 }
 
 
