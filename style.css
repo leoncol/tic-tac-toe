@@ -1,0 +1,36 @@
+* {
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+div {
+    border: 1px solid black;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.game-position {
+    width: 150px;
+    height: 150px;
+}
+
+.symbol {
+    width: 1rem;
+}
