@@ -5,14 +5,15 @@ const gameController = (function () {
     const playerTwo = createPlayer('Player #2');
     const currentGame = playerTurn();
     let currentTurn = currentGame(playerOne);
+    let currentGlobalCell = 0;
 
-  return {playerOne, playerTwo, currentGame, currentTurn}
+  return {playerOne, playerTwo, currentGame, currentTurn, currentGlobalCell}
 
 })();
 
 const domElements = {
     gamePositions: document.querySelectorAll('.game-position'),
-    position1: document.querySelector('.game-board'),
+    gameBoard: document.querySelector('.game-board'),
     createSymbol: function createSymbol() {
         let xSymbol = document.createElement("img");
         let oSymbol = document.createElement("img");
@@ -22,7 +23,7 @@ const domElements = {
         oSymbol.src = "./assets/PlayStationCircle.png";
         placeX.className = oSymbol.className = "symbol";
         
-        return placeX;
+        return {xSymbol, oSymbol};
         
     }
     
@@ -33,17 +34,62 @@ const domElements = {
 
 
 
-function domController() {
-    
-    function functionTest(event) {
-        
-        event.target.appendChild(domElements.createSymbol());
-        console.log(`${event.target.id} working`);
+function insertSymbol(event) {
+
+    if (gameController.currentTurn == 1){
+        clicked = domElements.createSymbol().xSymbol;
+    } else {
+        clicked = domElements.createSymbol().oSymbol;
     }
-    domElements.position1.addEventListener("click", functionTest);
+    
+    if (event.target.hasChildNodes() == false){
+        event.target.appendChild(clicked);
+        nextPlayer();
+    }
 }
 
+function playGame(){
+    domElements.gameBoard.addEventListener("click", addDomPosition);
+    domElements.gameBoard.addEventListener("click", insertSymbol);
+    
+}
 
+function addDomPosition(event){
+    let currentCell = 0;
+    switch (event.target.id){
+        case 'position-1':
+            currentCell = 1; 
+            break;
+        case 'position-2':
+            currentCell = 2;
+            break;
+        case 'position-3':
+            currentCell = 3;
+            break;
+        case 'position-4':
+            currentCell = 4;
+            break;
+        case 'position-5':
+            currentCell = 5;
+            break;
+        case 'position-6':
+            currentCell = 6;
+            break;
+        case 'position-7':
+            currentCell = 7;
+            break;
+        case 'position-8':
+            currentCell = 8;
+            break;
+        case 'position-9':
+            currentCell = 9;
+            break;
+    }
+    gameController.currentGlobalCell = currentCell;
+    chooseCell();
+    
+    
+}
 
 
 
@@ -80,13 +126,14 @@ function createPlayer(name) {
 
  function chooseCell(){
     if (gameController.currentTurn == 1) {
-        let cell = Number(prompt(`${gameController.playerOne.name} Insert a position from 1 to 9.`));
-        delimitChoce(cell);
+        let cell = Number(gameController.currentGlobalCell);
+        targetArray(cell);
+       
     
         
     } else {
-        let cell = Number(prompt(`${gameController.playerTwo.name} Insert a position from 1 to 9.`));
-        delimitChoce(cell);
+        let cell = Number(gameController.currentGlobalCell);
+        targetArray(cell);
         
     }
     
@@ -96,25 +143,11 @@ function createPlayer(name) {
 }
 
 
-function delimitChoce (cell) {
-    while (cell < 1 || cell > 9 ){
-            alert('Invalid position. Try again. ');
-            if (cell == 0){
-                alert('Game paused');
-                return;
-                
-            } else {
-                chooseCell()
-            }   
-        }
-        targetArray(cell);
-        
-}
 
 
 
 function placeToken(cell) {
-    let token = cell + 1; // Adjusts value to push the right token.
+    let token = cell + 1;
     gameBoard.board[cell].push(token);
     placedTokens(token);
 
@@ -130,19 +163,21 @@ function targetArray(cell) { // Adjusts values to target the right array.
 function nextPlayer() {
     if (gameController.currentTurn == 1){
         gameController.currentTurn = gameController.currentGame(gameController.playerTwo);
-        playGame();
+        
     } else {
         gameController.currentTurn = gameController.currentGame(gameController.playerOne);
-        playGame();
+        
     }
 }
+
 
 function isRepeated(cell) {
     if (gameBoard.board[cell] == 0) {
         placeToken(cell);
+
     } else {
         alert('Cell taken! Choose another one.');
-        playGame();
+        
     }
 }
 
@@ -170,7 +205,7 @@ function winCondition(player) {
         thirdColumnWin];
     for (let i = 0; i < possibleWins.length; i++){
         if (possibleWins[i].every(num => player.placedTokens.includes(num)) == true){
-            alert(`${player.name} is the winner.`);
+            console.log(`${player.name} is the winner.`);
             player.isWinner = true;
             break;
             
@@ -186,15 +221,15 @@ function checkWin(player) {
     if (player.placedTokens.length >= 3){
         winCondition(player);
         if (player.isWinner == true){
-            newGame();
+            console.log(`Congratulations, ${player.name}`);
             return;
         } else {
             isATie(gameBoard.board);
-            nextPlayer();
+            
         }
     } else {
         isATie(gameBoard.board);
-        nextPlayer();
+        
     }
     
 }
@@ -202,7 +237,6 @@ function checkWin(player) {
 function isATie(board, player) {
      if (board.every(num => num > 0) == true){
         console.log(`It's a tie!`);
-        newGame();
      } 
 }
 
@@ -217,7 +251,7 @@ function newGame() {
         resetBoard(gameBoard.board);
         resetPlayers();
         gameController.currentTurn = gameController.currentGame(gameController.playerOne);
-        playGame();
+        
         
     } else {
         console.log('Bye!');
@@ -226,9 +260,7 @@ function newGame() {
     
 }
 
-function playGame() {
-    chooseCell();
-}
+
 
 
 function resetBoard(array) {
@@ -245,5 +277,4 @@ function resetPlayers() {
     gameController.playerTwo.isWinner = false;
 }
 
-// playGame();
-domController();
+playGame();
