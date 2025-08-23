@@ -17,11 +17,11 @@ const domElements = {
     createSymbol: function createSymbol() {
         let xSymbol = document.createElement("img");
         let oSymbol = document.createElement("img");
-        let placeX = xSymbol;
+
         
-        placeX.src = "./assets/PlayStationCross.png";
+        xSymbol.src = "./assets/PlayStationCross.png";
         oSymbol.src = "./assets/PlayStationCircle.png";
-        placeX.className = oSymbol.className = "symbol";
+        xSymbol.className = oSymbol.className = "symbol";
         
         return {xSymbol, oSymbol};
         
@@ -222,6 +222,7 @@ function checkWin(player) {
         winCondition(player);
         if (player.isWinner == true){
             console.log(`Congratulations, ${player.name}`);
+            resetGame();
             return;
         } else {
             isATie(gameBoard.board);
@@ -237,30 +238,20 @@ function checkWin(player) {
 function isATie(board, player) {
      if (board.every(num => num > 0) == true){
         console.log(`It's a tie!`);
+        resetGame();
      } 
 }
 
-function newGame() {
-    let startAgain = Number(prompt('Press 1 to start a new game, press 2 to exit.'));
-    while (startAgain != 1 && startAgain != 2){
-        console.log('Invalid choice');
-        startAgain = Number(prompt('Press 1 to start a new game, press 2 to exit.'));
-        
-    } 
-    if (startAgain == 1){
+
+
+function resetGame() {
         resetBoard(gameBoard.board);
         resetPlayers();
+        resetDom();
         gameController.currentTurn = gameController.currentGame(gameController.playerOne);
-        
-        
-    } else {
-        console.log('Bye!');
-        return;
-    }
-    
+        gameController.currentGlobalCell = 0;
+
 }
-
-
 
 
 function resetBoard(array) {
@@ -275,6 +266,13 @@ function resetPlayers() {
     gameController.playerTwo.placedTokens = [];
     gameController.playerOne.isWinner = false;
     gameController.playerTwo.isWinner = false;
+}
+
+function resetDom(){
+    for (let i = 1; i < 10; i++){
+    let div = document.getElementById(`position-${i}`);
+    div.innerHTML = '';
+    }
 }
 
 playGame();
