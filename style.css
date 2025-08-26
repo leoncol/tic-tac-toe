@@ -8,14 +8,21 @@
 html, body {
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    
 }
 
-body {
+.center-game {
     display: flex;
     flex-wrap:wrap;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+   
+
 }
 
 div {
@@ -43,4 +50,17 @@ div {
 .player2-name{
     display: flex;
     margin-top: 1rem;
+}
+
+.score-table-player1, .score-table-player2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20rem;
+    
 }

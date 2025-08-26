@@ -8,32 +8,42 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <h1 id="player1-name"></h1>
-    <form id="enter-name1" action="https://httpbin.org/post" method="post">
-    <div class="player1-name">
-            <label for="player1-name-form">Type your name:<br></label>
-            <input type="text" id="player1-name-form" name="player1-name" required>
-            <button id="submit1" type="submit">Change name</button>
+    <div class="scores">
+        <div class="score-table-player1">
+            <h1 id="player1-name"></h1>
+            <h1 id="player1-score">Score: I</p>
         </div>
-    </form>
-    <div class="game-board">
-        <div class="game-position" id="position-0"></div>
-        <div class="game-position" id="position-1"></div>
-        <div class="game-position" id="position-2"></div>
-        <div class="game-position" id="position-3"></div>
-        <div class="game-position" id="position-4"></div>
-        <div class="game-position" id="position-5"></div>
-        <div class="game-position" id="position-6"></div>
-        <div class="game-position" id="position-7"></div>
-        <div class="game-position" id="position-8"></div>
+        <div class="score-table-player2">
+            <h1 id="player2-name"></h1>
+            <h1 id="player2-score">Score: I</p>
+        </div>
     </div>
-    <form id="enter-name2" action="https://httpbin.org/post" method="post">
-    <div class="player2-name">
-            <label for="player2-name-form">Type your name:<br></label>
-            <input type="text" id="player2-name-form" name="player2-name" required>
-            <button id="submit2" type="submit">Change name</button>
+    <div class="center-game">
+        <form id="enter-name1" action="https://httpbin.org/post" method="post">
+        <div class="player1-name">
+                <label for="player1-name-form">Type your name:<br></label>
+                <input type="text" id="player1-name-form" name="player1-name" required>
+                <button id="submit1" type="submit">Change name</button>
+            </div>
+        </form>
+        <div class="game-board">
+            <div class="game-position" id="position-0"></div>
+            <div class="game-position" id="position-1"></div>
+            <div class="game-position" id="position-2"></div>
+            <div class="game-position" id="position-3"></div>
+            <div class="game-position" id="position-4"></div>
+            <div class="game-position" id="position-5"></div>
+            <div class="game-position" id="position-6"></div>
+            <div class="game-position" id="position-7"></div>
+            <div class="game-position" id="position-8"></div>
         </div>
-    </form>
-    <h1 id="player2-name"></h1>
+        <form id="enter-name2" action="https://httpbin.org/post" method="post">
+        <div class="player2-name">
+                <label for="player2-name-form">Type your name:<br></label>
+                <input type="text" id="player2-name-form" name="player2-name" required>
+                <button id="submit2" type="submit">Change name</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

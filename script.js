@@ -3,7 +3,8 @@ const gameController = (function () {
     let createPlayer = function(name) {
     let placedTokens = [];
     let isWinner = false;
-    return {name, placedTokens, isWinner};
+    let score = placedTokens.length;
+    return {name, placedTokens, isWinner, score};
     
     }    
     const playerOne = createPlayer('Player #1');
@@ -97,6 +98,8 @@ const domController =(function() {
     player2updateName: document.querySelector('#player2-name-form'),
     submitName1: document.querySelector('#submit1'),
     submitName2: document.querySelector('#submit2'),
+    player1Score: document.querySelector('#player1-score'),
+    player2Score: document.querySelector('#player2-score'),
     
     };
 
@@ -148,31 +151,27 @@ const domController =(function() {
             alert(message);
     }
 
-    const changePlayerName = function(){
-        
-
-        const updatedPlayer1Name = domElements.player1updateName.value;
-        const updatedPlayer2Name = domElements.player2updateName.value;
-
-        return {updatedPlayer1Name, updatedPlayer2Name};
-        
-        
-
-
-
-    }
+  
 
     const displayPlayerName = function(){
-        domElements.player1Name.innerText = handleNames.getPlayersName.getPlayer1Name
-        domElements.player2Name.innerText = handleNames.getPlayersName.getPlayer2Name
+        domElements.player1Name.innerText = gameController.playerOne.name;
+        domElements.player2Name.innerText = gameController.playerTwo.name;
 
     }
 
+    /* const updateScore = function() {
+        let onePoint =  0;
+        gameController.playerOne.score
+        domElements.player2Score.innerHTML = 
+    }
+    */
 
 
 
 
-    return {createSymbol,domElements, addDomPosition, insertSymbol, displayAlerts, changePlayerName,displayPlayerName}
+
+
+    return {createSymbol,domElements, addDomPosition, insertSymbol, displayAlerts,displayPlayerName}
 })();
 
 
@@ -236,14 +235,38 @@ const gameState = (function () {
 
 const handleNames = (function (){
 
-    const getPlayersName = {
-        getPlayer1Name: gameController.playerOne.name,
-        getPlayer2Name: gameController.playerTwo.name,
 
+
+    const changePlayersName = function(event){
+
+        if (event.target.id == 'submit1'){
+            gameController.playerOne.name = domController.domElements.player1updateName.value;
+
+        } else {
+            gameController.playerTwo.name = domController.domElements.player2updateName.value;
+        }
         
+        domController.displayPlayerName();
     }
 
-    return {getPlayersName}
+    const changeNameButtonListeners = function(){
+        domController.domElements.gameBoard.addEventListener("click", domController.addDomPosition);
+        domController.domElements.submitName1.addEventListener("click", changePlayersName);
+        domController.domElements.submitName2.addEventListener("click", changePlayersName);
+        domController.domElements.player1Form.addEventListener("submit", function (event){
+        event.preventDefault();
+        domController.domElements.player2Form.addEventListener("submit", function (event){
+        event.preventDefault();
+         });
+
+
+
+    });
+  
+    }
+    return { changePlayersName, changeNameButtonListeners}
+    
+        
 
 })();
 
@@ -258,23 +281,6 @@ function playGame(){
     
 }
 
-function changeNames() {
-    domController.domElements.player1Form.addEventListener("submit", function (event){
-        event.preventDefault();
-    });
-    domController.domElements.player2Form.addEventListener("submit", function (event){
-        event.preventDefault();
-    });
-
-    domController.domElements.submitName1.addEventListener("click", () => {
-        domController.changePlayerName();
-      
-    });
-    domController.domElements.submitName2.addEventListener("click", () => {
-        domController.changePlayerName();
-      
-    });
-}
 
 
 
@@ -338,3 +344,4 @@ const resetController = (function(){
 
 playGame();
 domController.displayPlayerName();
+handleNames.changeNameButtonListeners(); 
