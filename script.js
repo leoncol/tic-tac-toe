@@ -70,7 +70,7 @@ const gameController = (function () {
 })();
 
 const domController =(function() {
-    let createSymbol = function() {
+    const createSymbol = function() {
         if (gameController.activePlayer == gameController.playerOne){
              let xSymbol = document.createElement("img");
              xSymbol.src = "./assets/PlayStationCross.png";
@@ -89,6 +89,15 @@ const domController =(function() {
     const domElements = {
     gamePositions: document.querySelectorAll('.game-position'),
     gameBoard: document.querySelector('.game-board'),
+    player1Form: document.querySelector('#enter-name1'),
+    player2Form: document.querySelector('#enter-name2'),
+    player1Name: document.querySelector('#player1-name'),
+    player2Name: document.querySelector('#player2-name'),
+    player1updateName: document.querySelector('#player1-name-form'),
+    player2updateName: document.querySelector('#player2-name-form'),
+    submitName1: document.querySelector('#submit1'),
+    submitName2: document.querySelector('#submit2'),
+    
     };
 
     const addDomPosition = function(event){
@@ -128,20 +137,42 @@ const domController =(function() {
     
     }
 
-    let insertSymbol = function(cell, symbol) {
+    const insertSymbol = function(cell, symbol) {
         let chosenCell = document.getElementById(`position-${cell}`);
         if (chosenCell.hasChildNodes() == false){
             chosenCell.appendChild(symbol);
             }
     }
 
-    let displayAlerts = function(message){
+    const displayAlerts = function(message){
             alert(message);
+    }
+
+    const changePlayerName = function(){
+        
+
+        const updatedPlayer1Name = domElements.player1updateName.value;
+        const updatedPlayer2Name = domElements.player2updateName.value;
+
+        return {updatedPlayer1Name, updatedPlayer2Name};
+        
+        
+
+
+
+    }
+
+    const displayPlayerName = function(){
+        domElements.player1Name.innerText = handleNames.getPlayersName.getPlayer1Name
+        domElements.player2Name.innerText = handleNames.getPlayersName.getPlayer2Name
+
     }
 
 
 
-    return {createSymbol,domElements, addDomPosition, insertSymbol, displayAlerts}
+
+
+    return {createSymbol,domElements, addDomPosition, insertSymbol, displayAlerts, changePlayerName,displayPlayerName}
 })();
 
 
@@ -195,9 +226,27 @@ const gameState = (function () {
 
     }
 
+
+   
+
     return {gameFlow, isATie, nextPlayer, isANewGame}
 
 })();
+
+
+const handleNames = (function (){
+
+    const getPlayersName = {
+        getPlayer1Name: gameController.playerOne.name,
+        getPlayer2Name: gameController.playerTwo.name,
+
+        
+    }
+
+    return {getPlayersName}
+
+})();
+
 
 
 
@@ -208,6 +257,25 @@ function playGame(){
 
     
 }
+
+function changeNames() {
+    domController.domElements.player1Form.addEventListener("submit", function (event){
+        event.preventDefault();
+    });
+    domController.domElements.player2Form.addEventListener("submit", function (event){
+        event.preventDefault();
+    });
+
+    domController.domElements.submitName1.addEventListener("click", () => {
+        domController.changePlayerName();
+      
+    });
+    domController.domElements.submitName2.addEventListener("click", () => {
+        domController.changePlayerName();
+      
+    });
+}
+
 
 
 const gameBoard = (function () {
@@ -269,3 +337,4 @@ const resetController = (function(){
 
 
 playGame();
+domController.displayPlayerName();

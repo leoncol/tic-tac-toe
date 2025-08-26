@@ -11,7 +11,9 @@ html, body {
 }
 
 body {
-    display: grid;
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -33,3 +35,12 @@ div {
     height: 150px;
 }
 
+.player1-name{
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.player2-name{
+    display: flex;
+    margin-top: 1rem;
+}
