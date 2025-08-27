@@ -1,9 +1,9 @@
 
 const gameController = (function () {
     let createPlayer = function(name) {
-    let placedTokens = [];
-    let isWinner = false;
-    let score = placedTokens.length;
+        let placedTokens = [];
+        let isWinner = false;
+        let score = `Score:`;
     return {name, placedTokens, isWinner, score};
     
     }    
@@ -166,12 +166,19 @@ const domController =(function() {
     }
     */
 
+    const displayScore = function(){
+        domController.domElements.player1Score.innerHTML = gameController.playerOne.score;
+        domController.domElements.player2Score.innerHTML = gameController.playerTwo.score;
+    }
+     
+    const updateScore = function(player){
+        player.score += ` I `;
+    }
 
 
 
 
-
-    return {createSymbol,domElements, addDomPosition, insertSymbol, displayAlerts,displayPlayerName}
+    return {createSymbol,domElements, addDomPosition, insertSymbol, displayAlerts,displayPlayerName, updateScore,displayScore}
 })();
 
 
@@ -215,6 +222,8 @@ const gameState = (function () {
      if (gameController.isRepeated(cell) == false){
         let symbol = domController.createSymbol();
         domController.insertSymbol(cell,symbol);
+        domController.updateScore(gameController.activePlayer);
+        domController.displayScore();
         gameController.checkWin(gameController.activePlayer);
         let reset = gameState.isANewGame();
         gameState.nextPlayer(reset);
@@ -345,3 +354,4 @@ const resetController = (function(){
 playGame();
 domController.displayPlayerName();
 handleNames.changeNameButtonListeners(); 
+domController.displayScore();
