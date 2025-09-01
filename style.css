@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'psfont';
+    src: url('assets/zrnic_rg-webfont.woff2') format('woff2'),
+         url('assets/zrnic_rg-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 * {
 
     box-sizing: border-box;
@@ -15,6 +24,10 @@ html, body {
     
 }
 
+body {
+    background-color:#182580;
+}
+
 .center-game {
     display: flex;
     flex-wrap:wrap;
@@ -25,14 +38,13 @@ html, body {
 
 }
 
-div {
-    border: 1px solid black;
-}
 
 .game-board {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+    background-color: white;
+    border: 1px solid black;
 }
 
 .game-position {
@@ -40,22 +52,26 @@ div {
     justify-content: center;
     width: 150px;
     height: 150px;
+    border: 1px solid black;
 }
 
 .player1-name{
     display: flex;
     margin-bottom: 1rem;
+    font-family: 'psfont';
 }
 
 .player2-name{
     display: flex;
     margin-top: 1rem;
+    font-family: 'psfont';
 }
 
 .score-table-player1, .score-table-player2 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'psfont';
 }
 
 .scores {
@@ -63,4 +79,32 @@ div {
     justify-content: space-between;
     padding: 0 20rem;
     
+}
+
+.new-game {
+    display: flex;
+    justify-content: center;
+}
+
+.new-game-button {
+    width: 10rem;
+    height: 6rem;
+    font-size: 2rem;
+    margin-top: 5rem;
+    
+}
+
+button {
+    font-family: 'psfont';
+}
+
+.game-title {
+    display: flex;
+    justify-content: center;
+    font-family: 'psfont';
+}
+
+
+label, h1 {
+    color: white;
 }

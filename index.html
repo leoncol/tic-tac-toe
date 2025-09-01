@@ -8,6 +8,9 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <div class="game-title">
+        <h1>Tic-Tac-Toe</h1>
+    </div>
     <div class="scores">
         <div class="score-table-player1">
             <h1 id="player1-name"></h1>
@@ -22,7 +25,7 @@
         <form id="enter-name1" action="https://httpbin.org/post" method="post">
         <div class="player1-name">
                 <label for="player1-name-form">Type your name:<br></label>
-                <input type="text" id="player1-name-form" name="player1-name" required>
+                <input type="text" id="player1-name-form" name="player1-name">
                 <button id="submit1" type="submit">Change name</button>
             </div>
         </form>
@@ -40,10 +43,13 @@
         <form id="enter-name2" action="https://httpbin.org/post" method="post">
         <div class="player2-name">
                 <label for="player2-name-form">Type your name:<br></label>
-                <input type="text" id="player2-name-form" name="player2-name" required>
+                <input type="text" id="player2-name-form" name="player2-name">
                 <button id="submit2" type="submit">Change name</button>
             </div>
         </form>
+    </div>
+    <div class="new-game">
+        <button class="new-game-button">New game</button>
     </div>
 </body>
 </html>

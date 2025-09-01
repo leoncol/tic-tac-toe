@@ -29,7 +29,9 @@ const gameController = (function () {
             gameController.winCondition(player);
             if (player.isWinner == true){
                 domController.displayAlerts(`Congratulations, ${player.name}`);
-                resetController.resetGame();
+                domController.displayAlerts(`Press the button to start a new game`);
+                resetController.setNewGameButtonState.isReset = true;
+                resetController.setNewGameButtonState.checkReset();
                 return;
             } else {
                 gameState.isATie(gameBoard.board);
@@ -100,6 +102,7 @@ const domController =(function() {
     submitName2: document.querySelector('#submit2'),
     player1Score: document.querySelector('#player1-score'),
     player2Score: document.querySelector('#player2-score'),
+    newGameButton: document.querySelector('.new-game-button'),
     
     };
 
@@ -159,12 +162,6 @@ const domController =(function() {
 
     }
 
-    /* const updateScore = function() {
-        let onePoint =  0;
-        gameController.playerOne.score
-        domElements.player2Score.innerHTML = 
-    }
-    */
 
     const displayScore = function(){
         domController.domElements.player1Score.innerHTML = gameController.playerOne.score;
@@ -215,7 +212,9 @@ const gameState = (function () {
     function isATie(board) {
         if (board.every(num => num.length > 0) == true){
         domController.displayAlerts(`It's a tie!`);
-        resetController.resetGame();
+        domController.displayAlerts(`Press the button to start a new game`);
+        resetController.setNewGameButtonState.isReset = true;
+        resetController.setNewGameButtonState.checkReset();
         } 
     }
     function gameFlow(cell) {
@@ -250,12 +249,15 @@ const handleNames = (function (){
 
         if (event.target.id == 'submit1'){
             gameController.playerOne.name = domController.domElements.player1updateName.value;
+            domController.domElements.player1updateName.value = '';
 
         } else {
             gameController.playerTwo.name = domController.domElements.player2updateName.value;
+            domController.domElements.player2updateName.value = '';
         }
         
         domController.displayPlayerName();
+        
     }
 
     const changeNameButtonListeners = function(){
@@ -324,6 +326,11 @@ const resetController = (function(){
     gameController.playerTwo.placedTokens.length = 0;
     gameController.playerOne.isWinner = false;
     gameController.playerTwo.isWinner = false;
+    gameController.playerOne.score = `Score:`;
+    gameController.playerTwo.score = `Score:`;
+    gameController.playerOne.name = `Player #1`;
+    gameController.playerTwo.name = `Player #2`;
+    domController.displayPlayerName();
     }
 
     const resetDom = function(){
@@ -333,15 +340,46 @@ const resetController = (function(){
         }
     }
 
+    const resetScoreBoard = function(){
+        domController.displayScore();
+    }
+
     const resetGame = function() {
         resetBoard(gameBoard.board);
         resetPlayers();
         resetDom();
+        resetScoreBoard();
+        setNewGameButtonState.isReset = false;
+        setNewGameButtonState.checkReset();
         gameController.activePlayer = gameController.playerOne;
     
 
     }
-    return {resetGame}
+
+     const resetButtonListeners = function(){
+        domController.domElements.newGameButton.addEventListener("click", resetGame);
+      
+         };
+
+     const setNewGameButtonState = {
+        isReset: false,
+        checkReset: function (){
+            if (setNewGameButtonState.isReset == false) {
+            domController.domElements.newGameButton.disabled = true;
+        } else {
+            domController.domElements.newGameButton.disabled = false;
+        }
+
+        }
+     }
+    
+        
+
+
+
+   
+
+    return {resetButtonListeners, setNewGameButtonState}
     }
     
 )();
@@ -355,3 +393,5 @@ playGame();
 domController.displayPlayerName();
 handleNames.changeNameButtonListeners(); 
 domController.displayScore();
+resetController.resetButtonListeners();
+resetController.setNewGameButtonState.checkReset();
